@@ -1,4 +1,5 @@
 const path = require('path')
+const puppeteer = require('puppeteer')
 const express = require('express')
 const morgan = require('morgan')
 const compression = require('compression')
@@ -7,7 +8,7 @@ const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
 const sessionStore = new SequelizeStore({db})
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 8081
 const app = express()
 const socketio = require('socket.io')
 module.exports = app
@@ -66,6 +67,18 @@ const createApp = () => {
   // auth and api routes
   app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
+
+  // app.get('/homepage', async () => {
+  //   try {
+  //     console.log('are we getting here?')
+  //     const browser = await puppeteer.launch({headless: false})
+  //     const page = await browser.newPage()
+  //     await page.setRequestInterception(true)
+  //     await page.goto(url)
+  //   } catch (err) {
+  //     console.error(err)
+  //   }
+  // })
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
